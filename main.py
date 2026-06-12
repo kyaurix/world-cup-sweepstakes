@@ -55,4 +55,24 @@ team_to_owner = {
     "Tunisia": "nahid"
 }
 
-print(team_to_owner["Spain"])
+owner1 = team_to_owner[team1]
+owner2 = team_to_owner[team2]
+
+def calculate_match_points(team1, team2, team1_goals, team2_goals, winner=None):
+    team1_points = team1_goals
+    team2_points = team2_goals
+
+    if winner == team1:
+        team1_points += 3
+    elif winner == team2:
+        team2_points += 3
+    elif team1_goals == team2_goals:
+        team1_points += 1
+        team2_points += 1
+    else:
+        if team1_goals > team2_goals:
+            team1_points += 3
+        else:
+            team2_points += 3
+
+    return team1_points, team2_points
