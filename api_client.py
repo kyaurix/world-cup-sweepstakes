@@ -56,3 +56,12 @@ def get_team_names(token):
     print(response.status_code)
 
     return response.json()
+
+def get_finished_matches(matches):
+    finished_matches = []
+
+    for match in matches:
+        if match["status"] == "FINISHED":
+            finished_matches.append(match)
+
+    return finished_matches
