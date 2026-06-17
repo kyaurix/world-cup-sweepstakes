@@ -26,8 +26,21 @@ def build_leaderboard(matches):
         #send this to the scoring calc
         team1_points, team2_points = calculate_match_points(team1,team2,team1_goals,team2_goals,winner)
         #update the leaderboard per match using lookup
-        team1owner = team_to_owner[team1]
-        team2owner = team_to_owner[team2]
-        current_leaderboard[team1owner] += team1_points
-        current_leaderboard[team2owner] += team2_points
+        if team1 in team_to_owner:
+            team1owner = team_to_owner[team1]
+            current_leaderboard[team1owner] += team1_points
+
+        if team2 in team_to_owner:
+            team2owner = team_to_owner[team2]
+            current_leaderboard[team2owner] += team2_points
     return current_leaderboard
+
+def format_leaderboard(final_leaderboard):
+    sorted_leaderboard = sorted(final_leaderboard.items(), key=lambda item: item[1],reverse=True)
+    lines = []
+    i = 1
+    for owner, points in sorted_leaderboard:
+        lines.append(str(i) + ". " + owner.capitalize() + "  -  " + str(points) + " pts")
+        i += 1
+    message = ("\n".join(lines))
+    return message
