@@ -70,7 +70,7 @@ def get_live_matches(matches):
     live_matches = []
 
     for match in matches:
-        if match["status"] == "PAUSED":
+        if match["status"] == "IN_PLAY" or match["status"] == "PAUSED":
             live_matches.append(match)
 
     return live_matches
