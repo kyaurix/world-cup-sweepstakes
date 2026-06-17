@@ -26,6 +26,12 @@ def build_leaderboard(matches):
     for match in finished_matches:
         team1,team2,team1_goals,team2_goals,winner = extract_match_info(match)
         #send this to the scoring calc
+        if team1_goals is None or team2_goals is None:
+            print("BROKEN MATCH:")
+            print(team1, team2)
+            print(team1_goals, team2_goals)
+            print(match["status"])
+            continue
         team1_points, team2_points = calculate_match_points(team1,team2,team1_goals,team2_goals,winner)
         #update the leaderboard per match using lookup
         if team1 in team_to_owner:
@@ -46,12 +52,32 @@ def build_leaderboard(matches):
             current_leaderboard[team2owner] += team2_goals
     return current_leaderboard
 
-def format_leaderboard(final_leaderboard):
+def build_games_played(matches):
+    owner_games_played = empty_leaderboard.copy()
+    finished_matches = get_finished_matches(matches)
+    live_matches = get_live_matches(matches)
+    games = finished_matches + live_matches
+
+    for match in games:
+        team1, team2, team1_goals, team2_goals, winner = extract_match_info(match)
+
+        if team1 in team_to_owner:
+            team1owner = team_to_owner[team1]
+            owner_games_played[team1owner] += 1
+
+        if team2 in team_to_owner:
+            team2owner = team_to_owner[team2]
+            owner_games_played[team2owner] += 1
+    return owner_games_played
+
+def format_leaderboard(final_leaderboard, games_played):
     sorted_leaderboard = sorted(final_leaderboard.items(), key=lambda item: item[1],reverse=True)
     lines = []
     i = 1
     for owner, points in sorted_leaderboard:
-        lines.append(str(i) + ". " + owner.capitalize() + "  -  " + str(points) + " pts")
+        rank = (str(i) + ".").ljust(4)
+        pnts = (str(points) + " pts").ljust(9)
+        lines.append(rank + owner.capitalize().ljust(8) + "  -  " + pnts+ "("+ str(games_played[owner])+")")
         i += 1
-    message = ("\n".join(lines))
+    message = ("```"+"\n".join(lines)+"```")
     return message

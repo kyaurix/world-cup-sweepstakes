@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 from api_client import get_world_cup_matches
-from leaderboard import build_leaderboard, format_leaderboard
+from leaderboard import build_leaderboard, format_leaderboard, build_games_played
 
 load_dotenv()
 
@@ -20,7 +20,8 @@ bot = commands.Bot(command_prefix=';', intents=intents)
 async def lb(ctx):
     data = get_world_cup_matches(football_token)
     final_leaderboard = build_leaderboard(data["matches"])
-    message = format_leaderboard(final_leaderboard)
+    games_played = build_games_played(data["matches"])
+    message = format_leaderboard(final_leaderboard, games_played)
     embed = discord.Embed(title="🏆  Leaderboard", description=message,colour=discord.Colour.gold())
     await ctx.send(embed=embed)
 
