@@ -3,17 +3,17 @@ from scoring import calculate_match_points
 from teams import team_to_owner
 
 empty_leaderboard = {
-    "nabeel": 0,
-    "abu": 0,
-    "nasir": 0,
-    "shah": 0,
-    "nadim": 0,
-    "yusuf": 0,
-    "ishraq": 0,
-    "hameem": 0,
-    "musaddik": 0,
-    "mahir": 0,
-    "nahid": 0
+    "nabeel": 18,
+    "abu": 13,
+    "nasir": 31,
+    "shah": 28,
+    "nadim": 15,
+    "yusuf": 36,
+    "ishraq": 20,
+    "hameem": 18,
+    "musaddik": 15,
+    "mahir": 23,
+    "nahid": 10
 }
 
 def build_leaderboard(matches):
