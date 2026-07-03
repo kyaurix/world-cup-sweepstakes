@@ -2,18 +2,33 @@ from api_client import get_finished_matches, extract_match_info, get_live_matche
 from scoring import calculate_match_points
 from teams import team_to_owner
 
+#latest team egypt
 empty_leaderboard = {
-    "nabeel": 18,
+    "nabeel": 26,
     "abu": 13,
-    "nasir": 31,
+    "nasir": 39,
     "shah": 28,
     "nadim": 15,
-    "yusuf": 36,
+    "yusuf": 44,
     "ishraq": 20,
-    "hameem": 18,
+    "hameem": 26,
     "musaddik": 15,
     "mahir": 23,
-    "nahid": 10
+    "nahid": 18
+}
+
+real_empty_leaderboard = {
+    "nabeel": 0,
+    "abu": 0,
+    "nasir": 0,
+    "shah": 0,
+    "nadim": 0,
+    "yusuf": 0,
+    "ishraq": 0,
+    "hameem": 0,
+    "musaddik": 0,
+    "mahir": 0,
+    "nahid": 0
 }
 
 def build_leaderboard(matches):
@@ -53,7 +68,7 @@ def build_leaderboard(matches):
     return current_leaderboard
 
 def build_games_played(matches):
-    owner_games_played = empty_leaderboard.copy()
+    owner_games_played = real_empty_leaderboard.copy()
     finished_matches = get_finished_matches(matches)
     live_matches = get_live_matches(matches)
     games = finished_matches + live_matches

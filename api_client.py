@@ -33,8 +33,20 @@ def get_world_cup_matches(token):
 def extract_match_info(match):
     team1 = match["homeTeam"]["name"]
     team2 = match["awayTeam"]["name"]
-    team1_goals = match["score"]["fullTime"]["home"]
-    team2_goals = match["score"]["fullTime"]["away"]
+    duration = match["score"]["duration"]
+    if duration == "PENALTY_SHOOTOUT":
+        regular = match["score"]["regularTime"]
+        extra = match["score"].get("extraTime")
+
+        team1_goals = regular["home"]
+        team2_goals = regular["away"]
+
+        if extra is not None:
+            team1_goals += extra["home"] or 0
+            team2_goals += extra["away"] or 0
+    else:
+        team1_goals = match["score"]["fullTime"]["home"]
+        team2_goals = match["score"]["fullTime"]["away"]
     if match["score"]["winner"] == "HOME_TEAM":
         winner = team1
     elif match["score"]["winner"] == "AWAY_TEAM":
